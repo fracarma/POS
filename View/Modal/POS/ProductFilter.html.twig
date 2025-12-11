@@ -1,0 +1,57 @@
+<div id="productFilterModal" class="hidden modal">
+    <div class="modal-content md:modal-content-md">
+        <div class="modal-header">
+            <div class="block">
+                <h2 class="text-2xl font-semibold text-slate-gray-700">{{ trans('filters') }}</h2>
+                <p class="text-xs italic">Configura las familias que quieras que se muestren como filtro en el listado
+                    de familias.</p>
+            </div>
+            <button class="ml-2 btn btn-icon btn-danger" data-toggle="modal" data-target="productFilterModal">
+                <i class="fa fw fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="productFilterListTemplateView" class="flex flex-wrap gap-2 mb-4">
+            </div>
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {% for familia in fsc.getParentFamilies() %}
+                    {% set bgcolor =  familia.madre ? 'bg-slate-50' : 'bg-slate-100' %}
+                    {% set imageUrl =  familia.shorcutImage() %}
+                    <div role="listitem"
+                         class="{{ bgcolor }} p-2 shadow-xs rounded-lg font-semibold cursor-pointer"
+                         data-action="setFamilyFilterAction"
+                         data-code="{{ familia.codfamilia }}"
+                         data-madre="{{ familia.madre }}"
+                         data-description="{{ familia.descripcion }}"
+                         data-thumbnail="{{ imageUrl }}">
+                        {% if imageUrl %}
+                            <img class="pointer-events-none mx-auto rounded-md mb-2 object-scale-down border-2 border-gray-50"
+                                 src="{{ imageUrl }}" alt="{{ familia.codfamilia }}">
+                        {% endif %}
+                        <p class="text-sm text-center">{{ familia.descripcion }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script id="productFilterListTemplate" type="text/template">
+    <% filters.forEach(function(filter){ %>
+    <div role="listitem"
+         class="items-center bg-slate-800 flex flex-row p-2 shadow-xs rounded-lg font-semibold cursor-pointer"
+         data-action="setFamilyFilterAction"
+         data-code="<%= filter.code %>"
+         data-description="<%= filter.description %>" data-thumbnail="<%= filter.thumbnail %>">
+        <% if(filter.thumbnail) { %>
+        <img class="pointer-events-none w-12 mx-auto rounded-md object-scale-down"
+             src="<%= filter.thumbnail %>" alt="<%= filter.code %>">
+        <% } %>
+        <p class="text-sm text-center p-2 text-white"><%= filter.description %></p>
+        <button class="h-8 w-8 text-xs btn btn-icon btn-danger"
+                data-action="setFamilyFilterAction"
+                data-code="<%= filter.code %>">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+    <% }) %>
+</script>
