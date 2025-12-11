@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*    This file is part of POS plugin for FacturaScripts
+*    Copyright (C) 2024 Juan José Prieto Dzul <juanjoseprieto88@gmail.com>
+*
+*    Document   : pagospos.xml
+*    Description:
+*         Estructura de la tabla pagospos.
+-->
+<table>
+    <column>
+        <name>cantidad</name>
+        <type>double precision</type>
+        <null>NO</null>
+    </column>
+    <column>
+        <name>cambio</name>
+        <type>double precision</type>
+        <null>NO</null>
+    </column>
+    <column>
+        <name>codpago</name>
+        <type>character varying(10)</type>
+        <null>NO</null>
+    </column>
+    <column>
+        <name>idoperacion</name>
+        <type>integer</type>
+        <null>NO</null>
+    </column>
+    <column>
+        <name>idsesion</name>
+        <type>integer</type>
+        <null>NO</null>
+    </column>
+    <column>
+        <name>idpago</name>
+        <type>serial</type>
+        <null>NO</null>
+    </column>
+    <column>
+        <name>nick</name>
+        <type>character varying(50)</type>
+    </column>
+    <column>
+        <name>nickupdate</name>
+        <type>character varying(50)</type>
+        <null>YES</null>
+    </column>
+    <column>
+        <name>createdat</name>
+        <type>timestamp</type>
+    </column>
+    <column>
+        <name>updatedat</name>
+        <type>timestamp</type>
+    </column>
+    <constraint>
+        <name>pagospos_pkey</name>
+        <type>PRIMARY KEY (idpago)</type>
+    </constraint>
+    <constraint>
+        <name>ca_pagospos_formaspago</name>
+        <type>FOREIGN KEY (codpago) REFERENCES formaspago (codpago) ON DELETE RESTRICT ON UPDATE CASCADE</type>
+    </constraint>
+    <constraint>
+        <name>ca_prepagos_usuarios_nick</name>
+        <type>FOREIGN KEY (nick) REFERENCES users (nick) ON DELETE SET NULL ON UPDATE CASCADE</type>
+    </constraint>
+    <constraint>
+        <name>ca_prepagos_usuarios_nickupdate</name>
+        <type>FOREIGN KEY (nickupdate) REFERENCES users (nick) ON DELETE SET NULL ON UPDATE CASCADE</type>
+    </constraint>
+    <constraint>
+        <name>ca_pagospos_operacionespos</name>
+        <type>FOREIGN KEY (idoperacion) REFERENCES operacionespos (idoperacion) ON DELETE CASCADE ON UPDATE CASCADE</type>
+    </constraint>
+    <constraint>
+        <name>ca_pagospos_sesionpos</name>
+        <type>FOREIGN KEY (idsesion) REFERENCES sesionespos (idsesion) ON DELETE CASCADE ON UPDATE CASCADE</type>
+    </constraint>
+</table>
